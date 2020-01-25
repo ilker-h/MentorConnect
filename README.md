@@ -1,2 +1,2 @@
 # MentorConnect
-An app to connect mentors and mentees in order to combat imposter syndrome.
+A web app to connect mentors and mentees in order to combat imposter syndrome.
