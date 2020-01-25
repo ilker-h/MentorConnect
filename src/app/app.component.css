@@ -1,0 +1,10 @@
+/* A container comes with its own padding and so does a row, and when a row is inside a container,
+   the padding cancels out. But in this case, I only have a container without a row in it so this is how
+   to fix it.
+ https://stackoverflow.com/questions/17560818/twitter-bootstrap-white-space-on-left-and-right-side-in-smaller-screen-widths */
+ .container-fluid {
+    padding-right: 0;
+    padding-left: 0;
+    margin-right: auto;
+    margin-left: auto;
+}
