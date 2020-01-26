@@ -12,13 +12,17 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
+import { RegisterComponent } from './auth/register/register.component';
+import { AboutComponent } from './header/about/about.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    HeaderComponent
+    HeaderComponent,
+    RegisterComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
