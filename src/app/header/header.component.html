@@ -1,15 +1,11 @@
-
-  
-  <!-- Note, the syntax for hiding the search bar on mobile screens using class="d-none d-sm-block" from
-      https://getbootstrap.com/docs/4.0/utilities/display/ but I didn't end up using this way-->
-
-      <div class="container-fluid">
-        <div class="row">
-          <mat-toolbar color="primary">
-                <h1 style="font-size:30px;">MentorConnect</h1>
-                <span class="spacer"></span>
-                <a class="about" routerLink="/login" style="margin-right: 20px; color: white;">Login</a>
-                <a class="about" routerLink="/register" style="margin-left: 20px; margin-right: 40px; color: white;">Register</a>
-            </mat-toolbar>
-        </div>
-      </div>
+<div class="container-fluid">
+  <div class="row">
+    <mat-toolbar style="background-color: #1106B9;">
+      <h1 style="font-size:30px; color: white; cursor: pointer;" routerLink="/login">MentorConnect</h1>
+      <span class="spacer"></span>
+      <a class="login" routerLink="/login" style="margin-right: 20px; color: white; text-decoration: none;">Login</a>
+      <a class="register" routerLink="/register" style="margin-left: 20px; margin-right: 20px; color: white; text-decoration: none;">Register</a>
+      <a class="about" routerLink="/about" style="margin-left: 20px; margin-right: 40px; color: white; text-decoration: none;">About</a>
+    </mat-toolbar>
+  </div>
+</div>
