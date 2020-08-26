@@ -4,7 +4,11 @@
 /dist
 /tmp
 /out-tsc
-/.firebase
+
+# Firebase
+.firebase/
+database.rules.json
+.firebaserc
 
 # dependencies
 /node_modules
@@ -44,6 +48,6 @@ testem.log
 .DS_Store
 Thumbs.db
 
-#orig files come from merge conflicts and can be deleted once the merge conflict is resolved.
-#See "Lecture 33: Conflict Resolution" at 4:30, https://www.udemy.com/github-ultimate/learn/lecture/4731806#overview
+# orig files come from merge conflicts and can be deleted once the merge conflict is resolved.
+# See "Lecture 33: Conflict Resolution" at 4:30, https://www.udemy.com/github-ultimate/learn/lecture/4731806#overview
 *.orig
