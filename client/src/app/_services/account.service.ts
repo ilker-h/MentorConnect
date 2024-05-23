@@ -18,7 +18,7 @@ export class AccountService {
       map((response: User) => {
         const user = response;
         if (user) {
-          // we have access to local Storage anywhere in the app
+          // local Storage is accessible anywhere in the app
           localStorage.setItem('user', JSON.stringify(user));
           this.currentUserSource.next(user);
         }
