@@ -1,1 +1,51 @@
-<p>member-detail works!</p>
+<div class="row" *ngIf="member">
+  <div class="col-4">
+    <div class="card">
+      <img src="{{member.photoUrl || './assets/user.png'}}" alt="{{member.knownAs}}" class="card-img-top img-thumbnail">
+      <div class="card-body">
+        <div>
+          <strong>Location:</strong>
+          <p>{{member.city}}, {{ member.country}}</p>
+        </div>
+        <div>
+          <strong>Industry Experience:</strong>
+          <p>{{member.yearsOfCareerExperience}} years</p>
+        </div>
+        <div>
+          <strong>Last Active:</strong>
+          <p>{{member.lastActive}}</p>
+        </div>
+        <div>
+          <strong>Member Since:</strong>
+          <p>{{member.created}}</p>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="btn-group d-flex">
+          <button class="btn btn-primary">Send Connection Request</button>
+          <button class="btn btn-success">Messages</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-8">
+    <tabset class="member-tabset">
+        <tab heading="About {{member.knownAs}}">
+          <h4>Bio</h4>
+          <p>{{member.bio}}</p>
+          <h4>Looking for</h4>
+          <p>{{member.lookingFor}}</p>
+        </tab>
+        <tab heading="Career Interests">
+          <h4>Career Interests</h4>
+          <p>{{member.careerInterests}}</p>
+        </tab>
+        <tab heading="Photos" #photoTab="tab">
+          <gallery *ngIf="photoTab.active" [items]="images" class="gallery" [thumb]="false"></gallery>
+        </tab>
+        <tab heading="Messages">
+          <p>Messages will go here</p>
+        </tab>
+    </tabset>
+  </div>
+</div>

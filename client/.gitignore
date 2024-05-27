@@ -44,3 +44,7 @@ Thumbs.db
 # SSL files
 /ssl/localhost.pem
 /ssl/localhost-key.pem
+
+# Environment variables
+/src/environments/environment.development.ts
+/src/environments/environment.ts
