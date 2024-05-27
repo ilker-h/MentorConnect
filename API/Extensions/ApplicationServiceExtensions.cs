@@ -19,6 +19,8 @@ namespace API.Extensions
             services.AddCors();
             //this is an interface and an implemenetation class. It's best practice to add an interface so that you can write tests more efficiently, due to it isolating where things can go wrong.
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IUserRepository, UserRepository>(); // scoped to the level of the HTTP Request
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             return services;
          }

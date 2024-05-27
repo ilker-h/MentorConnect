@@ -1,5 +1,7 @@
+using API.Data;
 using API.Extensions;
 using API.Middleware;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,4 +35,21 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// this will give access to all of the servicess that are within this Program class
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+// since this is not an Http Request, it won't go through the Http request pipeline, so exception handling has to be done here
+try
+{
+    var context = services.GetRequiredService<DataContext>();
+    await context.Database.MigrateAsync(); // will recreate the database to a clean state if it is dropped
+    await Seed.SeedUsers(context);
+}
+catch (Exception ex)
+{
+    var logger = services.GetService<ILogger<Program>>();
+    logger.LogError(ex, "An error occurred during migration");
+}
+
 app.Run();
