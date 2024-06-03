@@ -1,5 +1,6 @@
 ﻿using API.DTOs;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -26,11 +27,33 @@ namespace API.Data
                 .SingleOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<MemberDto>> GetMembersAsync()
+        public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
         {
-            return await _context.Users
-                .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
+            var query = _context.Users.AsQueryable();
+
+            // will exclude currently logged in user from results shown in Connections page in app
+            query = query.Where(u => u.UserName != userParams.CurrentUsername);
+
+            query = query.Where(u => u.MentorOrMentee == userParams.MentorOrMentee);
+
+            // this app will filter by YearsOfCareerExperience, not Age
+            // var minDob = DateOnly.FromDateTime(DateTime.Today.AddYears(-userParams.MaxAge - 1));
+            // var maxDob = DateOnly.FromDateTime(DateTime.Today.AddYears(-userParams.MinAge));
+            // query = query.Where(u => u.DateOfBirth >= minDob && u.DateOfBirth <= maxDob);
+            
+            query = query.Where(u => u.YearsOfCareerExperience >= userParams.MinYearsOfCareerExperience && u.YearsOfCareerExperience <= userParams.MaxYearsOfCareerExperience);
+
+            query = userParams.OrderBy switch
+            {
+                "created" => query.OrderByDescending(u => u.Created),
+                _ => query.OrderByDescending(u => u.LastActive) // this is the default case
+            };
+
+            // AsNoTracking() this makes it so that EF will not keep track of what is returned by this method. It yields slight performance improvements
+            return await PagedList<MemberDto>.CreateAsync(
+                query.AsNoTracking().ProjectTo<MemberDto>(_mapper.ConfigurationProvider),
+                userParams.PageNumber,
+                userParams.PageSize);
         }
 
         public async Task<AppUser> GetUserByIdAsync(int id)

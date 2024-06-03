@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// middleware runs before the request gets to the endpoint, and runs for every single request that comes into the API
+
 // Add services to the container.
 
 builder.Services.AddControllers();

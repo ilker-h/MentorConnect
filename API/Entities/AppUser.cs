@@ -16,7 +16,7 @@ public class AppUser
     public string KnownAs { get; set; }
     public DateTime Created { get; set; } = DateTime.UtcNow;
     public DateTime LastActive { get; set; } = DateTime.UtcNow;
-    public string MentorOrMentee { get; set; } //
+    public string MentorOrMentee { get; set; }  // this is used instead of gender. "Mentee" is used instead of "male" and "Mentor" is used instead of "female"
     public string Bio { get; set; } //
     public string LookingFor { get; set; }
     public string CareerInterests { get; set; } //
