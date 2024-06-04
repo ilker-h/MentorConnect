@@ -24,8 +24,7 @@ public class AppUser
     public string Country { get; set; }
     public List<Photo> Photos { get; set; } = new();
 
-    // public int GetAge()
-    // {
-    //     return DateOfBirth.CalculateAge();
-    // }
+    public List<UserConnectionRequest> ConnectionRequestedByUsers { get; set; } // Connection Request is used instead of "Like"
+    public List<UserConnectionRequest> ConnectionRequestedFromUsers { get; set; }
+
 }
