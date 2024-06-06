@@ -53,10 +53,10 @@ import { DatePickerComponent } from './_forms/date-picker/date-picker.component'
     SharedModule
   ],
   providers: [
-     // multi is true here because Angular comes with its own interceptors as well, so "multi" lets you add additional interceptors, not replace all of Angular's existing ones
-    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true}
+    // multi is true here because Angular comes with its own interceptors as well, so "multi" lets you add additional interceptors, not replace all of Angular's existing ones
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

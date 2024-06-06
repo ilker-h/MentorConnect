@@ -27,4 +27,6 @@ public class AppUser
     public List<UserConnectionRequest> ConnectionRequestedByUsers { get; set; } // Connection Request is used instead of "Like"
     public List<UserConnectionRequest> ConnectionRequestedFromUsers { get; set; }
 
+    public List<Message> MessagesSent { get; set; }
+    public List<Message> MessagesReceived { get; set; }
 }

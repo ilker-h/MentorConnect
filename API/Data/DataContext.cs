@@ -12,6 +12,7 @@ public class DataContext : DbContext
     // Entity Framework then creates a table with the name Users
     public DbSet<AppUser> Users { get; set; }
     public DbSet<UserConnectionRequest> ConnectionRequests { get; set; }
+    public DbSet<Message> Messages { get; set; } // table will be called Messages
 
     // will override the OnModelCreating method from DbContext class, which DataContext is derived from
     protected override void OnModelCreating(ModelBuilder builder)
@@ -33,5 +34,15 @@ public class DataContext : DbContext
             .WithMany(l => l.ConnectionRequestedByUsers)
             .HasForeignKey(s => s.TargetUserId)
             .OnDelete(DeleteBehavior.Cascade); // if using SQL Server, you must use .NoAction instead
+
+        builder.Entity<Message>()
+            .HasOne(u => u.Recipient)
+            .WithMany(m => m.MessagesReceived)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<Message>()
+            .HasOne(u => u.Sender)
+            .WithMany(m => m.MessagesSent)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
