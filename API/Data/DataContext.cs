@@ -1,16 +1,19 @@
 ﻿using API.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data;
 
-public class DataContext : DbContext
+public class DataContext : IdentityDbContext<AppUser, AppRole, int, IdentityUserClaim<int>,
+ AppUserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
 {
     public DataContext(DbContextOptions options) : base(options)
     {
     }
 
     // Entity Framework then creates a table with the name Users
-    public DbSet<AppUser> Users { get; set; }
+    // public DbSet<AppUser> Users { get; set; } // no longer needed due to using ASP.NET Core Identity
     public DbSet<UserConnectionRequest> ConnectionRequests { get; set; }
     public DbSet<Message> Messages { get; set; } // table will be called Messages
 
@@ -19,6 +22,18 @@ public class DataContext : DbContext
     {
         // this uses the method inside the DbContext base class and passes it the builder object
         base.OnModelCreating(builder);
+
+        builder.Entity<AppUser>()
+            .HasMany(ur => ur.UserRoles)
+            .WithOne(u => u.User)
+            .HasForeignKey(ur => ur.UserId)
+            .IsRequired();
+
+        builder.Entity<AppRole>()
+            .HasMany(ur => ur.UserRoles)
+            .WithOne(u => u.Role)
+            .HasForeignKey(ur => ur.RoleId)
+            .IsRequired();            
 
         builder.Entity<UserConnectionRequest>()
             .HasKey(k => new { k.SourceUserId, k.TargetUserId }); // this represents the primary key used in the ConnectionRequests table

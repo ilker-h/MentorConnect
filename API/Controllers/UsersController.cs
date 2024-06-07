@@ -27,6 +27,7 @@ namespace API.Controllers
         }
 
         // [AllowAnonymous] can be used for allowing anonymous requests
+        // [Authorize(Roles = "Admin")] would restrict this endpoint to be only accessible by users with the "Admin" role
         [HttpGet]
         public async Task<ActionResult<PagedList<MemberDto>>> GetUsers([FromQuery] UserParams userParams) // [FromQuery] gives the API an indication as to where to find the userParams
         {

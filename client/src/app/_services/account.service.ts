@@ -36,6 +36,10 @@ export class AccountService {
   }
 
   setCurrentUser(user: User) {
+    user.roles = [];
+    const roles = this.getDecodedToken(user.token).role;
+    Array.isArray(roles) ? user.roles = roles : user.roles.push(roles);
+
     // local Storage is accessible anywhere in the app
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
@@ -44,5 +48,11 @@ export class AccountService {
   logout() {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
+  }
+
+  getDecodedToken(token: string) {
+    // the 1 is to get the middle part of the JWT token, which is where the user's role information is held.
+    // atob() stands for "ASCII to binary", the opposite is btoa(). It's similar to online JTW decoders like jwt.io or jwt.ms
+    return JSON.parse(atob(token.split('.')[1]));
   }
 }
