@@ -2,6 +2,7 @@
 using API.Helpers;
 using API.Interfaces;
 using API.Services;
+using API.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Extensions
@@ -27,6 +28,9 @@ namespace API.Extensions
             services.AddScoped<LogUserActivity>();
             services.AddScoped<IConnectionRequestsRepository, ConnectionRequestsRepository>();
             services.AddScoped<IMessageRepository, MessageRepository>();
+            services.AddSignalR();
+             // a singleton is used because this needs to live throughout the whole lifetime of the app. It's not going to be destroyed once an Http Request is completed or something
+            services.AddSingleton<PresenceTracker>();
 
             return services;
          }

@@ -16,6 +16,8 @@ public class DataContext : IdentityDbContext<AppUser, AppRole, int, IdentityUser
     // public DbSet<AppUser> Users { get; set; } // no longer needed due to using ASP.NET Core Identity
     public DbSet<UserConnectionRequest> ConnectionRequests { get; set; }
     public DbSet<Message> Messages { get; set; } // table will be called Messages
+    public DbSet<Group> Groups { get; set; }
+    public DbSet<Connection> Connections { get; set; }
 
     // will override the OnModelCreating method from DbContext class, which DataContext is derived from
     protected override void OnModelCreating(ModelBuilder builder)

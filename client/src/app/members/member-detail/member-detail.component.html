@@ -3,6 +3,9 @@
     <div class="card">
       <img src="{{member.photoUrl || './assets/user.png'}}" alt="{{member.knownAs}}" class="card-img-top img-thumbnail">
       <div class="card-body">
+        <div class="mb-2" *ngIf="(presenceService.onlineUsers$ | async)?.includes(member.userName)">
+          <i class="fa fa-user-circle text-success"></i> Online now
+        </div>
         <div>
           <strong>Location:</strong>
           <p>{{member.city}}, {{ member.country}}</p>
@@ -13,7 +16,7 @@
         </div>
         <div>
           <strong>Last Active:</strong>
-          <p>{{member.lastActive + 'Z' | timeago}}</p>
+          <p>{{member.lastActive | timeago}}</p>
         </div>
         <div>
           <strong>Member Since:</strong>
@@ -30,22 +33,22 @@
   </div>
   <div class="col-8">
     <tabset class="member-tabset" #memberTabs>
-        <tab heading="About {{member.knownAs}}" (selectTab)="onTabActivated($event)">
-          <h4>Bio</h4>
-          <p>{{member.bio}}</p>
-          <h4>Looking for</h4>
-          <p>{{member.lookingFor}}</p>
-        </tab>
-        <tab heading="Career Interests" (selectTab)="onTabActivated($event)">
-          <h4>Career Interests</h4>
-          <p>{{member.careerInterests}}</p>
-        </tab>
-        <tab heading="Photos" #photoTab="tab" (selectTab)="onTabActivated($event)">
-          <gallery *ngIf="photoTab.active" [items]="images" class="gallery" [thumb]="false"></gallery>
-        </tab>
-        <tab heading="Messages" (selectTab)="onTabActivated($event)">
-          <app-member-messages [username]="member.userName" [messages]="messages"></app-member-messages>
-        </tab>
+      <tab heading="About {{member.knownAs}}" (selectTab)="onTabActivated($event)">
+        <h4>Bio</h4>
+        <p>{{member.bio}}</p>
+        <h4>Looking for</h4>
+        <p>{{member.lookingFor}}</p>
+      </tab>
+      <tab heading="Career Interests" (selectTab)="onTabActivated($event)">
+        <h4>Career Interests</h4>
+        <p>{{member.careerInterests}}</p>
+      </tab>
+      <tab heading="Photos" #photoTab="tab" (selectTab)="onTabActivated($event)">
+        <gallery *ngIf="photoTab.active" [items]="images" class="gallery" [thumb]="false"></gallery>
+      </tab>
+      <tab heading="Messages" (selectTab)="onTabActivated($event)">
+        <app-member-messages [username]="member.userName"></app-member-messages>
+      </tab>
     </tabset>
   </div>
 </div>
