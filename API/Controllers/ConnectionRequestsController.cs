@@ -9,27 +9,25 @@ namespace API.Controllers
 {
     public class ConnectionRequestsController : BaseApiController
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IConnectionRequestsRepository _connectionRequestsRepository;
+        private readonly IUnitOfWork _uow;
 
-        public ConnectionRequestsController(IUserRepository userRepository, IConnectionRequestsRepository connectionRequestsRepository)
+        public ConnectionRequestsController(IUnitOfWork uow)
         {
-            _userRepository = userRepository;
-            _connectionRequestsRepository = connectionRequestsRepository;
+            _uow = uow;
         }
 
         [HttpPost("{username}")]
         public async Task<ActionResult> AddConnectionRequest(string username)
         {
             var sourceUserId = User.GetUserId();
-            var connectionRequestedFromUser = await _userRepository.GetUserByUsernameAsync(username);
-            var sourceUser = await _connectionRequestsRepository.GetUserWithConnectionRequests(sourceUserId);
+            var connectionRequestedFromUser = await _uow.UserRepository.GetUserByUsernameAsync(username);
+            var sourceUser = await _uow.ConnectionRequestsRepository.GetUserWithConnectionRequests(sourceUserId);
 
             if (connectionRequestedFromUser == null) return NotFound();
 
             if (sourceUser.UserName == username) return BadRequest("You cannot send a connection request to yourself.");
 
-            var userConnectionRequest = await _connectionRequestsRepository.GetUserConnectionRequest(sourceUserId, connectionRequestedFromUser.Id);
+            var userConnectionRequest = await _uow.ConnectionRequestsRepository.GetUserConnectionRequest(sourceUserId, connectionRequestedFromUser.Id);
 
             if (userConnectionRequest != null) return BadRequest("You already sent a connection request to this user");
 
@@ -41,7 +39,7 @@ namespace API.Controllers
 
             sourceUser.ConnectionRequestedFromUsers.Add(userConnectionRequest);
 
-            if (await _userRepository.SaveAllAsync()) return Ok();
+            if (await _uow.Complete()) return Ok();
 
             return BadRequest("Failed to send connection request to user");
 
@@ -54,7 +52,7 @@ namespace API.Controllers
         {
             connectionRequestsParams.UserId = User.GetUserId();
 
-            var users = await _connectionRequestsRepository.GetUserConnectionRequests(connectionRequestsParams);
+            var users = await _uow.ConnectionRequestsRepository.GetUserConnectionRequests(connectionRequestsParams);
 
             Response.AddPaginationHeader(new PaginationHeader(users.CurrentPage,
              users.PageSize, users.TotalCount, users.TotalPages));
