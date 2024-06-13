@@ -1,7 +1,29 @@
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
   <div class="container">
-      <a *ngIf="!(accountService.currentUser$ | async) as user" class="navbar-brand" routerLink="/" routerLinkActive="active">MentorConnect</a>
-      <a *ngIf="(accountService.currentUser$ | async) as user" class="navbar-brand" routerLink="/" routerLinkActive="active" style="pointer-events: none;">MentorConnect</a>
+
+    <span *ngIf="!(accountService.currentUser$ | async) as user" style="padding-top: 7px;">
+      <p class="logo" routerLink="/"><img src="assets\M-MentorConnect-Logo-Alternative-Colours.png" height="35"
+          style="margin-top: -4px; margin-right: 2px;"><a class="navbar-brand" routerLink="/"
+          routerLinkActive="active">entor</a></p>
+    </span>
+
+    <span *ngIf="!(accountService.currentUser$ | async) as user" style="padding-top: 7px; padding-right: 20px;">
+      <p class="logo" routerLink="/"><img src="assets\C-MentorConnect-Logo-Alternative-Colours.png" height="35"
+          style="margin-top: -4px; margin-right: 2px;"><a class="navbar-brand" routerLink="/"
+          routerLinkActive="active">onnect</a></p>
+    </span>
+
+    <span *ngIf="(accountService.currentUser$ | async) as user" style="padding-top: 7px;">
+      <p class="logo" routerLink="/members"><img src="assets\M-MentorConnect-Logo-Alternative-Colours.png" height="35"
+          style="margin-top: -4px; margin-right: 2px;"><a class="navbar-brand" routerLink="/members"
+          routerLinkActive="active">entor</a></p>
+    </span>
+
+    <span *ngIf="(accountService.currentUser$ | async) as user" style="padding-top: 7px; padding-right: 20px;">
+      <p class="logo" routerLink="/members"><img src="assets\C-MentorConnect-Logo-Alternative-Colours.png" height="35"
+          style="margin-top: -4px; margin-right: 2px;"><a *ngIf="(accountService.currentUser$ | async) as user"
+          class="navbar-brand" routerLink="/members" routerLinkActive="active">onnect</a></p>
+    </span>
 
     <ul class="navbar-nav me-auto mb-2 mb-md-0">
       <ng-container *ngIf="accountService.currentUser$ | async">
@@ -24,7 +46,7 @@
     </ul>
 
     <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
-      <img src="{{user.photoUrl || './assets/user.png'}}" alt="user photo">
+      <img class="user-photo" src="{{user.photoUrl || './assets/user.png'}}" alt="user photo">
       <a class="dropdown-toggle text-light text-decoration-none ms-2" dropdownToggle>Welcome {{ user.knownAs }}</a>
       <div class="dropdown-menu" *dropdownMenu>
         <a class="dropdown-item" routerLink="/member/edit">Edit Profile</a>
@@ -32,19 +54,11 @@
       </div>
     </div>
 
-    <form *ngIf="!(accountService.currentUser$ | async)" #loginForm="ngForm" class="d-flex" (ngSubmit)="login()" autocomplete="off">
-      <input
-      name="username"
-      [(ngModel)]="model.username"
-      class="form-control me-2"
-      type="text"
-      placeholder="Username">
-      <input
-      name="password"
-      [(ngModel)]="model.password"
-      class="form-control me-2"
-      type="password"
-      placeholder="Password">
+    <form *ngIf="!(accountService.currentUser$ | async)" #loginForm="ngForm" class="d-flex" (ngSubmit)="login()"
+      autocomplete="off">
+      <input name="username" [(ngModel)]="model.username" class="form-control me-2" type="text" placeholder="Username">
+      <input name="password" [(ngModel)]="model.password" class="form-control me-2" type="password"
+        placeholder="Password">
       <button class="btn btn-success" type="submit">Login</button>
     </form>
   </div>

@@ -21,7 +21,7 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
+              "src/favicon.png",
               "src/assets"
             ],
             "styles": [
@@ -72,7 +72,8 @@
           "options": {
             "ssl": true,
             "sslCert": "./ssl/localhost.pem",
-            "sslKey": "./ssl/localhost-key.pem"
+            "sslKey": "./ssl/localhost-key.pem",
+            "port": 4203
           },
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
@@ -100,7 +101,7 @@
             ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
-              "src/favicon.ico",
+              "src/favicon.png",
               "src/assets"
             ],
             "styles": [

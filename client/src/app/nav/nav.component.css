@@ -2,8 +2,18 @@
   cursor: pointer;
 }
 
-img {
+.user-photo {
   max-height: 50px;
   border: 2px solid white;
   display: inline;
+}
+
+.logo {
+  cursor: pointer;
+  font-size: 30px;
+  margin-right: -10px;
+}
+
+.logo>a {
+  font-size: 35px;
 }
