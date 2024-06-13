@@ -13,6 +13,8 @@ import { PresenceService } from 'src/app/_services/presence.service';
 import { AccountService } from 'src/app/_services/account.service';
 import { take } from 'rxjs';
 import { User } from 'src/app/_models/user';
+import { Pagination } from 'src/app/_models/pagination';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-member-detail',
@@ -32,8 +34,18 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   messages: Message[] = [];
   user?: User;
 
+  // To switch between the Follow/Unfollow button
+  membersUserSentConnectionRequestsTo: Member[] | undefined;
+  predicate = 'connection_requested_from';
+  pageNumber = 1;
+  pageSize = 5;
+  pagination: Pagination | undefined;
+  isUserFollowed: boolean = false;
+
+
   constructor(private accountService: AccountService, private route: ActivatedRoute,
-    private messageService: MessageService, public presenceService: PresenceService) {
+    private messageService: MessageService, public presenceService: PresenceService,
+     private memberService: MembersService, private toastr: ToastrService) {
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: user => {
         if (user) this.user = user;
@@ -53,6 +65,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     });
 
     this.getImages();
+    this.loadConnectionRequests();
   }
 
   loadMessages() {
@@ -97,6 +110,38 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     for (const photo of this.member?.photos) {
       this.images.push(new ImageItem({ src: photo.url, thumb: photo.url }));
     }
+  }
+
+  // To switch between the Follow/Unfollow button
+  loadConnectionRequests() {
+    this.memberService.getConnectionRequests(this.predicate, this.pageNumber, this.pageSize).subscribe({
+      next: response => {
+        this.membersUserSentConnectionRequestsTo = response.result;
+        this.pagination = response.pagination;
+
+        this.membersUserSentConnectionRequestsTo?.forEach(element => {
+          if (element.userName === this.member.userName) {
+            this.isUserFollowed = true;
+          }
+        });
+      }
+    });
+  }
+
+  addConnectionRequest(member: Member) {
+    this.memberService.addConnectionRequest(member.userName).subscribe({
+      next: () => {
+        this.toastr.success('You have followed ' + member.knownAs);
+        this.isUserFollowed = true;
+      }
+    });
+  }
+
+  removeConnectionRequest(member: Member) {
+    this.memberService.removeConnectionRequest(member.userName).subscribe({
+      next: () => this.toastr.info('You have unfollowed ' + member.knownAs)
+    });
+    this.isUserFollowed = false;
   }
 
 }

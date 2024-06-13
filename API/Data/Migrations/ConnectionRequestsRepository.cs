@@ -47,7 +47,9 @@ namespace API.Data
                 YearsOfCareerExperience = user.YearsOfCareerExperience,
                 PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain).Url,
                 City = user.City,
-                Id = user.Id
+                Id = user.Id,
+                MentorOrMentee = user.MentorOrMentee,
+                CareerInterests = user.CareerInterests
             });
 
             return await PagedList<ConnectionRequestDto>.CreateAsync(connectionRequestedFromUsers, connectionRequestsParams.PageNumber, connectionRequestsParams.PageSize);

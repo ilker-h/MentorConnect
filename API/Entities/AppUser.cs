@@ -25,8 +25,9 @@ public class AppUser : IdentityUser<int>
     public string Country { get; set; }
     public List<Photo> Photos { get; set; } = new();
 
-    public List<UserConnectionRequest> ConnectionRequestedByUsers { get; set; } // Connection Request is used instead of "Like"
-    public List<UserConnectionRequest> ConnectionRequestedFromUsers { get; set; }
+    // Connection Request is used instead of "Like". Note that on the client-side, "Follow" makes more sense than "Connection Request"
+    public List<UserConnectionRequest> ConnectionRequestedByUsers { get; set; } // a list of connection requests sent by other users to you
+    public List<UserConnectionRequest> ConnectionRequestedFromUsers { get; set; } // a list of connections you have requested from other users
 
     public List<Message> MessagesSent { get; set; }
     public List<Message> MessagesReceived { get; set; }

@@ -5,4 +5,6 @@ export interface User {
   knownAs: string;
   mentorOrMentee: string;
   roles: string[];
+  yearsOfCareerExperience: number;
+  careerInterests: string;
 }

@@ -44,3 +44,7 @@
   /* animation: solid 1.5s linear infinite; */
   color: rgb(1, 189, 42);
 }
+
+button {
+  border-radius: 50px !important;
+}

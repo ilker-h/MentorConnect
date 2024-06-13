@@ -1,5 +1,5 @@
 <div class="text-center mt-3">
-  <h2>{{predicate === 'connection_requested_from' ? 'Connection requests sent' : 'Connection requests received'}}</h2>
+  <h2>{{predicate === 'connection_requested_from' ? 'Following' : 'Followers'}}</h2>
 </div>
 
 <div class="container mt-3">
@@ -9,13 +9,13 @@
         btnRadio="connection_requested_from"
         [(ngModel)]="predicate"
         (click)="loadConnectionRequests()">
-        Connection requests sent
+        Following
       </button>
       <button class="btn btn-primary"
         btnRadio="connection_requested_by"
         [(ngModel)]="predicate"
         (click)="loadConnectionRequests()">
-        Connection requests received
+        Followers
       </button>
     </div>
   </div>

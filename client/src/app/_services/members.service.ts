@@ -105,9 +105,14 @@ export class MembersService {
     return this.http.post(this.baseUrl + 'connectionrequests/' + username, {});
   }
 
+  removeConnectionRequest(username: string) {
+    return this.http.post(this.baseUrl + 'connectionrequests/remove/' + username, {});
+  }
+
   getConnectionRequests(predicate: string, pageNumber: number, pageSize: number) {
     let params = getPaginationHeaders(pageNumber, pageSize);
 
+    // "predicate" means: does the user want to get the user they sent a connection request to, or get a user they have been sent connection requests from?
     params = params.append('predicate', predicate);
 
     return getPaginatedResult<Member[]>(this.baseUrl + 'connectionrequests', params, this.http);

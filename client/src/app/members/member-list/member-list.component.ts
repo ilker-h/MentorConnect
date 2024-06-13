@@ -7,6 +7,7 @@ import { UserParams } from 'src/app/_models/userParams';
 import { AccountService } from 'src/app/_services/account.service';
 import { MembersService } from 'src/app/_services/members.service';
 
+// Note the client-facing UI uses the word "Members" in the navbar to describe the MemberListComponent
 @Component({
   selector: 'app-member-list',
   templateUrl: './member-list.component.html',

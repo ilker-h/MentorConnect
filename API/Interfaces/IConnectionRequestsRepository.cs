@@ -8,7 +8,7 @@ namespace API.Interfaces
     {
         Task<UserConnectionRequest> GetUserConnectionRequest(int SourceUserId, int TargetUserId);
         Task<AppUser> GetUserWithConnectionRequests(int userId);
-        // "predicate" means, does the user want to get the user they sent a connection request to, or a user they have been sent connections requests from?
+        // "predicate" means: does the user want to get the user they sent a connection request to, or get a user they have been sent connection requests from?
         Task<PagedList<ConnectionRequestDto>> GetUserConnectionRequests(ConnectionRequestsParams connectionRequestsParams);
     }
 }

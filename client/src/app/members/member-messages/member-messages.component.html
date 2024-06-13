@@ -1,7 +1,7 @@
 <div class="card">
   <div class="card-body">
     <div *ngIf="(messageService.messageThread$ | async)?.length === 0">
-      No messages yet... say hi by using the message box below
+      No messages yet. Reach out using the message box below.
     </div>
 
     <ul
@@ -12,12 +12,12 @@
       <li *ngFor="let message of (messageService.messageThread$ | async)">
         <div>
           <span class="chat-img float-end">
-            <img class="rounded-circle" src="{{message.senderPhotoUrl || './assets/user.png'}}" alt="image of user">
+            <img class="rounded-circle me-2" src="{{message.senderPhotoUrl || './assets/user.png'}}" alt="image of user">
           </span>
           <div class="chat-body">
             <div class="header">
               <small class="text-muted">
-                <span class="fa fa-clock-o">{{message.messageSent | timeago}}</span>
+                <span class="fa fa-clock-o"><span class="ms-1 me-1">{{message.messageSent | timeago}}</span></span>
                 <span class="text-danger"
                   *ngIf="!message.dateRead && message.senderUsername !== username">(unread)</span>
                 <span class="text-success" *ngIf="message.dateRead && message.senderUsername !== username">(read
@@ -35,9 +35,9 @@
     <form #messageForm="ngForm" (ngSubmit)="sendMessage()" autocomplete="off">
       <div class="input-group">
         <input name="messageContent" required [(ngModel)]="messageContent" type="text" class="form-control input-sm"
-          placeholder="Send a private message">
+          placeholder="Send a message">
         <div class="input-group-append">
-          <button [disabled]="!messageForm.valid" class="btn btn-primary" type="submit">Send</button>
+          <button [disabled]="!messageForm.valid" class="btn btn-primary" type="submit" style="height: 44.39px;">Send</button>
         </div>
       </div>
     </form>

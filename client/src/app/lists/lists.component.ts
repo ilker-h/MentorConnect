@@ -3,6 +3,7 @@ import { Member } from '../_models/member';
 import { MembersService } from '../_services/members.service';
 import { Pagination } from '../_models/pagination';
 
+// Note the client-facing UI uses the words "Following/Followers" in the navbar to describe the ListsComponent
 @Component({
   selector: 'app-lists',
   templateUrl: './lists.component.html',
