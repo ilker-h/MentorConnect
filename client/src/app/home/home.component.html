@@ -21,8 +21,8 @@
   <!-- /Hero Content -->
 
   <!-- "How to Use" Section -->
-  <div class="row" style="margin: 50px 0px;">
-    <div class="col-sm-8" style="background-color: #f8f8f8; margin: auto;">
+  <div *ngIf="!registerMode" class="row" style="margin: 50px 0px;">
+    <div class="col-sm-8" style="background-color: #f4f4f4; margin: auto;">
       <div style="margin: 20px;">
 
         <div class="row">
@@ -37,10 +37,21 @@
 
         <div class="row" style="margin-left: 30px;">
           <ul>
-            <li> Logging into a demo account with the username <strong>"maryann"</strong> and password
-              <strong>"Pa$$w0rd"</strong>. </li>
+            <li> Logging into one of the following demo accounts:
+              <ul>
+                <li>
+                  Mentee account: username <strong>"maryann" </strong> and password <strong>"Pa$$w0rd"</strong>.
+                </li>
+                <li>
+                  Mentor account: username <strong>"ward" </strong> and password <strong>"Pa$$w0rd"</strong>.
+                </li>
+                <li>
+                  Administrator account: username <strong>"admin" </strong> and password <strong>"Pa$$w0rd"</strong>.
+                </li>
+              </ul>
+            </li>
             <li> Creating a test account by registering. </li>
-            <li> Or watch a walkthrough video of the app at: <a href="https://vimeo.com/957525974"
+            <li> Or watching a walkthrough video of the app at: <a href="https://vimeo.com/957525974"
                 target="_blank">https://vimeo.com/957525974</a>.</li>
           </ul>
         </div>

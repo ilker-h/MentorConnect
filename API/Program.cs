@@ -20,6 +20,35 @@ builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Fly.io Configurations:
+var connString = "";
+if (builder.Environment.IsDevelopment())
+    connString = builder.Configuration.GetConnectionString("DefaultConnection");
+else
+{
+    // Use connection string provided at runtime by FlyIO.
+    var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+
+    // Parse connection URL to connection string for Npgsql
+    connUrl = connUrl.Replace("postgres://", string.Empty);
+    var pgUserPass = connUrl.Split("@")[0];
+    var pgHostPortDb = connUrl.Split("@")[1];
+    var pgHostPort = pgHostPortDb.Split("/")[0];
+    var pgDb = pgHostPortDb.Split("/")[1];
+    var pgUser = pgUserPass.Split(":")[0];
+    var pgPass = pgUserPass.Split(":")[1];
+    var pgHost = pgHostPort.Split(":")[0];
+    var pgPort = pgHostPort.Split(":")[1];
+    var updatedHost = pgHost.Replace("flycast", "internal");
+
+    connString = $"Server={updatedHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb};";
+}
+builder.Services.AddDbContext<DataContext>(opt =>
+{
+    opt.UseNpgsql(connString);
+});
+// /Fly.io Configurations
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline. // middleware
@@ -42,9 +71,16 @@ app.UseCors(builder => builder
 app.UseAuthentication();
 app.UseAuthorization();
 
+// for serving the client-side's static files
+app.UseDefaultFiles(); // will look for index.html by default
+app.UseStaticFiles(); // will look for wwwroot folder by default for serving static content
+
 app.MapControllers();
 app.MapHub<PresenceHub>("hubs/presence");
 app.MapHub<MessageHub>("hubs/message");
+ // when serving the client's static files in production, the API's Kestrel server only knows how to serve data from localhost:5001,
+ // not other filepaths like 5001/members, so this Fallback Controller will tell the Kestrel server to let Angular handle other filepaths
+app.MapFallbackToController("Index", "Fallback");
 
 // this will give access to all of the servicess that are within this Program class
 using var scope = app.Services.CreateScope();
@@ -56,7 +92,8 @@ try
     var userManager = services.GetRequiredService<UserManager<AppUser>>();
     var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
     await context.Database.MigrateAsync(); // will recreate the database to a clean state if it is dropped
-    await context.Database.ExecuteSqlRawAsync("DELETE FROM [Connections]"); // replace "DELETE FROM" with "TRUNCATE TABLE" if using any db query language other than SQLite
+    // await context.Database.ExecuteSqlRawAsync("DELETE FROM [Connections]"); // replace "DELETE FROM" with "TRUNCATE TABLE" if using any db query language other than SQLite
+    await Seed.ClearConnections(context);
     await Seed.SeedUsers(userManager, roleManager);
 }
 catch (Exception ex)

@@ -17,6 +17,7 @@ export class MemberMessagesComponent implements OnInit {
   @ViewChild('messageForm') messageForm?: NgForm;
   @Input() username?: string;
   messageContent = '';
+  loading = false;
 
   constructor(public messageService: MessageService) { }
 
@@ -25,9 +26,10 @@ export class MemberMessagesComponent implements OnInit {
 
   sendMessage() {
     if (!this.username) return;
-    // then() is used since a Promise is expected. Subscribe() and next() is for observables
+    this.loading = true;
+    // then() is used since a Promise is expected, whereas Subscribe() and next() are for observables
     this.messageService.sendMessage(this.username, this.messageContent).then(() => {
       this.messageForm?.reset();
-    });
+    }).finally(() => this.loading = false);
   }
 }

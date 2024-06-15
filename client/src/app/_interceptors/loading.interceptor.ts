@@ -5,8 +5,9 @@ import {
   HttpEvent,
   HttpInterceptor
 } from '@angular/common/http';
-import { Observable, delay, finalize } from 'rxjs';
+import { Observable, delay, finalize, identity } from 'rxjs';
 import { BusyLoadingService } from '../_services/busy-loading.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class LoadingInterceptor implements HttpInterceptor {
@@ -14,12 +15,12 @@ export class LoadingInterceptor implements HttpInterceptor {
   constructor(private busyLoadingService: BusyLoadingService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    this.busyLoadingService.busy();
+    // this.busyLoadingService.busy();
 
     return next.handle(request).pipe(
-      // delay(1000),
+      // (environment.production ? identity : delay(1000)), // enable this is you'd like to see the loading icon
       finalize(() => {
-        this.busyLoadingService.idle();
+        // this.busyLoadingService.idle();
       })
     );
   }

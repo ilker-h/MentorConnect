@@ -2,8 +2,12 @@
   <h3>Loading...</h3>
 </ngx-spinner>
 
-<app-nav></app-nav>
+<app-nav *ngIf="screenWidth && screenWidth >= 1400"></app-nav>
 
-<div class="container" style="margin-top: 120px;">
+<div *ngIf="screenWidth && screenWidth >= 1400" class="container" style="margin-top: 120px;">
   <router-outlet></router-outlet>
+</div>
+
+<div *ngIf="screenWidth && screenWidth < 1400" class="container text-center mt-5">
+  <h4>This app currently only supports desktop devices. Please use a device that has a minimum screen width of 1400px.</h4>
 </div>

@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System.Data;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using API.Entities;
@@ -9,6 +10,12 @@ namespace API.Data
 {
     public class Seed
     {
+        public static async Task ClearConnections(DataContext context)
+        {
+            context.Connections.RemoveRange(context.Connections);
+            await context.SaveChangesAsync();
+        }
+
         // a static method is used here so that a new instance of the Seed class doesn't need to be created when the method is used
         public static async Task SeedUsers(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
         {
@@ -42,6 +49,9 @@ namespace API.Data
                 // This is just for creating test users, since usually the app wouldn't generate the password for the users
                 // user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("Pa$$w0rd"));
                 // user.PasswordSalt = hmac.Key;
+
+                user.Created = DateTime.SpecifyKind(user.Created, DateTimeKind.Utc);
+                user.LastActive = DateTime.SpecifyKind(user.LastActive, DateTimeKind.Utc);
 
                 // This is just for creating test users, since usually the app wouldn't generate the password for the users
                 await userManager.CreateAsync(user, "Pa$$w0rd");
