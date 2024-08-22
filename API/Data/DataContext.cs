@@ -50,7 +50,7 @@ public class DataContext : IdentityDbContext<AppUser, AppRole, int, IdentityUser
             .HasOne(s => s.TargetUser)
             .WithMany(l => l.ConnectionRequestedByUsers)
             .HasForeignKey(s => s.TargetUserId)
-            .OnDelete(DeleteBehavior.Cascade); // if using SQL Server, you must use .NoAction instead
+            .OnDelete(DeleteBehavior.NoAction); // if using SQL Server, you must use .NoAction instead of Cascade
 
         builder.Entity<Message>()
             .HasOne(u => u.Recipient)
