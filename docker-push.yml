@@ -1,3 +1,5 @@
+# Move this file into .github\workflows if you want it to run as a GitHub Action
+
 # name: docker-push
 
 # on:
