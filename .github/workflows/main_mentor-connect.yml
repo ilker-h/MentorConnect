@@ -25,7 +25,7 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.GITHUB_WORKSPACE}}\myapp
+        run: dotnet publish -c Release -O ./publish
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
