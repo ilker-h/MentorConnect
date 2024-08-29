@@ -479,3 +479,9 @@ $RECYCLE.BIN/
 #AppSettings
 API/appsettings.json
 API/appsettings.Development.json
+
+#YAML files
+/docker-push.yml
+/main_mentor-connect.yml
+/docker-compose.yml
+/fly.toml
